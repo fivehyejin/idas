@@ -739,6 +739,128 @@ tr:hover .ra {
   gap: 8px;
 }
 
+/* FSEC (form section) */
+.fsec {
+  margin-bottom: 18px;
+}
+.fsec-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--th);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* APPT MODAL */
+.appt-ch {
+  padding: 6px 12px;
+  border: 1px solid var(--brd2);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--ts);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.appt-ch:hover {
+  border-color: var(--pl);
+  color: var(--pl);
+}
+.appt-ch.on {
+  background: var(--pl);
+  color: #fff;
+  border-color: var(--pl);
+}
+.appt-svc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid var(--brd);
+  border-radius: var(--r);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: border-color 0.15s;
+}
+.appt-svc:hover {
+  border-color: var(--pl);
+}
+.appt-svc input {
+  accent-color: var(--pl);
+  flex-shrink: 0;
+}
+.appt-svc span {
+  color: var(--txt);
+}
+.appt-sa {
+  border: 2px solid var(--brd);
+  border-radius: var(--r);
+  padding: 10px 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+}
+.appt-sa:hover {
+  border-color: var(--pl);
+}
+.appt-sa.on {
+  border-color: var(--pl);
+  background: var(--bbg);
+}
+.appt-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--brd);
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.appt-opt:hover {
+  border-color: var(--pl);
+}
+.appt-opt input {
+  accent-color: var(--pl);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.aslot {
+  border: 1px solid var(--brd2);
+  border-radius: 5px;
+  padding: 6px 4px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.aslot:hover {
+  border-color: var(--pl);
+}
+.aslot.on {
+  background: var(--pl);
+  color: #fff;
+  border-color: var(--pl);
+}
+.aslot.few {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.aslot.busy {
+  background: var(--sur2);
+  color: var(--th);
+  cursor: not-allowed;
+}
+.aslot-sub {
+  font-size: 9px;
+  font-weight: 400;
+  margin-top: 1px;
+}
+
 /* TOAST */
 .toast {
   position: fixed;

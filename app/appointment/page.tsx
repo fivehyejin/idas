@@ -1,6 +1,7 @@
 'use client'
 
 import Layout from '@/components/Layout'
+import ApptModal from '@/components/ApptModal'
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -36,6 +37,7 @@ export default function AppointmentPage() {
   const router = useRouter()
   const [filter, setFilter] = useState('all')
   const [apptFilter, setApptFilter] = useState('all')
+  const [apptModalOpen, setApptModalOpen] = useState(false)
 
   const filteredAppts = useMemo(() => {
     return appts.filter(a => apptFilter === 'all' || a.status === apptFilter)
@@ -53,7 +55,7 @@ export default function AppointmentPage() {
             <button className="btn btn-o btn-sm" onClick={() => toast('노쇼 위험 3건 리마인드 발송', 'warn')}>
               ⚠ 리마인드 발송
             </button>
-            <button className="btn btn-p btn-sm" onClick={() => toast('예약 생성 모달')}>
+            <button className="btn btn-p btn-sm" onClick={() => setApptModalOpen(true)}>
               + 예약 생성
             </button>
           </div>
@@ -179,6 +181,7 @@ export default function AppointmentPage() {
           </div>
         </div>
       </div>
+      <ApptModal open={apptModalOpen} onClose={() => setApptModalOpen(false)} />
     </Layout>
   )
 }
