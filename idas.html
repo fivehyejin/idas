@@ -264,6 +264,27 @@ tr:hover .ra{opacity:1}
 .sum-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--brd);font-size:13px}
 .sum-row:last-child{border-bottom:none;font-weight:700;font-size:14px}
 .conf-box{background:linear-gradient(135deg,var(--primary) 0%,var(--pl) 100%);color:#fff;border-radius:var(--rl);padding:24px;text-align:center}
+
+/* APPT MODAL */
+.appt-ch{padding:6px 12px;border:1px solid var(--brd2);border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;color:var(--ts);transition:all .15s;white-space:nowrap}
+.appt-ch:hover{border-color:var(--pl);color:var(--pl)}
+.appt-ch.on{background:var(--pl);color:#fff;border-color:var(--pl)}
+.appt-svc{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--brd);border-radius:var(--r);cursor:pointer;font-size:12px;font-weight:500;transition:border-color .15s}
+.appt-svc:hover{border-color:var(--pl)}
+.appt-svc input{accent-color:var(--pl);flex-shrink:0}
+.appt-svc span{color:var(--txt)}
+.appt-sa{border:2px solid var(--brd);border-radius:var(--r);padding:10px 8px;cursor:pointer;text-align:center;transition:all .15s}
+.appt-sa:hover{border-color:var(--pl)}
+.appt-sa.on{border-color:var(--pl);background:var(--bbg)}
+.appt-opt{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid var(--brd);border-radius:var(--r);cursor:pointer;transition:border-color .15s}
+.appt-opt:hover{border-color:var(--pl)}
+.appt-opt input{accent-color:var(--pl);margin-top:2px;flex-shrink:0}
+.aslot{border:1px solid var(--brd2);border-radius:5px;padding:6px 4px;text-align:center;cursor:pointer;font-size:11px;font-weight:600;transition:all .15s}
+.aslot:hover{border-color:var(--pl)}
+.aslot.on{background:var(--pl);color:#fff;border-color:var(--pl)}
+.aslot.few{border-color:var(--amber);color:var(--amber)}
+.aslot.busy{background:var(--sur2);color:var(--th);cursor:not-allowed}
+.aslot-sub{font-size:9px;font-weight:400;margin-top:1px}
 </style>
 </head>
 <body>
@@ -940,187 +961,152 @@ tr:hover .ra{opacity:1}
 
 <!-- APPT MODAL -->
 <div class="modal-bg hidden" id="apptModal" onclick="if(event.target===this)closeApptModal()">
-<div class="modal" style="max-width:720px">
-  <div class="modal-hdr" style="padding:16px 24px">
-    <div>
-      <div class="modal-title">예약 생성</div>
-      <div style="font-size:11px;opacity:.7;margin-top:2px" id="apptWizSubtitle">채널을 선택하여 시작하세요</div>
-    </div>
+<div class="modal" style="max-width:780px">
+  <div class="modal-hdr">
+    <div class="modal-title">예약 생성</div>
     <button class="modal-x" onclick="closeApptModal()">✕</button>
   </div>
+  <div class="modal-body" style="max-height:82vh">
 
-  <!-- 진행 바 -->
-  <div class="wiz-prog" id="wizProg">
-    <div class="wiz-step active" id="ws1"><div class="wiz-num">1</div><div class="wiz-lbl">채널</div></div>
-    <div class="wiz-step" id="ws2"><div class="wiz-num">2</div><div class="wiz-lbl">고객/차량</div></div>
-    <div class="wiz-step" id="ws3"><div class="wiz-num">3</div><div class="wiz-lbl">서비스</div></div>
-    <div class="wiz-step" id="ws4"><div class="wiz-num">4</div><div class="wiz-lbl">일시/SA</div></div>
-    <div class="wiz-step" id="ws5"><div class="wiz-num">5</div><div class="wiz-lbl">옵션</div></div>
-    <div class="wiz-step" id="ws6"><div class="wiz-num">6</div><div class="wiz-lbl">확인</div></div>
-  </div>
+    <!-- 상단 2열 레이아웃 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
 
-  <div style="max-height:520px;overflow-y:auto">
-
-  <!-- STEP 1: 채널 -->
-  <div class="wiz-panel active" id="wp1">
-    <div class="xs bold hint mb12" style="text-transform:uppercase;letter-spacing:.8px">예약 채널 선택</div>
-    <div class="ch-grid">
-      <div class="ch-card on" onclick="selCh(this,'Customer Portal')"><div class="ch-ico">🌐</div><div class="ch-lbl">Customer Portal</div></div>
-      <div class="ch-card" onclick="selCh(this,'모바일 앱')"><div class="ch-ico">📱</div><div class="ch-lbl">모바일 앱</div></div>
-      <div class="ch-card" onclick="selCh(this,'콜센터')"><div class="ch-ico">📞</div><div class="ch-lbl">콜센터</div></div>
-      <div class="ch-card" onclick="selCh(this,'챗봇')"><div class="ch-ico">🤖</div><div class="ch-lbl">챗봇 / AI</div></div>
-      <div class="ch-card" onclick="selCh(this,'방문 직접')"><div class="ch-ico">🏢</div><div class="ch-lbl">방문 직접</div></div>
-    </div>
-    <div class="ai" style="margin-top:4px"><div class="ai-ico">💡</div><div><div class="ai-title">채널별 노쇼율 안내</div><div class="ai-body">Customer Portal 1.2% · 앱 2.1% · 콜센터 6.8% · 챗봇 3.4% · 방문직접 0.8% — Portal/앱 예약 시 자동 리마인드 발송.</div></div></div>
-  </div>
-
-  <!-- STEP 2: 고객/차량 -->
-  <div class="wiz-panel" id="wp2">
-    <div class="fg2 mb12">
+      <!-- 왼쪽 -->
       <div>
-        <div class="xs bold hint mb8" style="text-transform:uppercase;letter-spacing:.8px">고객 정보</div>
-        <div style="display:flex;gap:6px;margin-bottom:10px"><input type="text" class="finput" placeholder="고객명 / 전화번호 / 고객번호" id="custSearch" value="김민지" style="flex:1"><button class="btn btn-p btn-sm" onclick="searchCust()">조회</button></div>
-        <div id="custResult" style="border:1px solid var(--green);border-radius:var(--r);padding:10px;background:var(--gbg);display:flex;align-items:center;gap:10px">
-          <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">김</div>
-          <div><div class="bold fca g8">⭐ 김민지 <span class="tag tg" style="font-size:10px">VIP</span></div><div class="xs sec mt4">010-1234-5678 · 총 12회 방문 · CSI 4.9★</div></div>
-          <span class="tag tg" style="margin-left:auto">조회됨</span>
+        <!-- 채널 -->
+        <div class="fsec">
+          <div class="fsec-title">예약 채널</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <div class="appt-ch on" onclick="acSel(this)">🌐 Customer Portal</div>
+            <div class="appt-ch" onclick="acSel(this)">📱 모바일 앱</div>
+            <div class="appt-ch" onclick="acSel(this)">📞 콜센터</div>
+            <div class="appt-ch" onclick="acSel(this)">🤖 챗봇</div>
+            <div class="appt-ch" onclick="acSel(this)">🏢 방문 직접</div>
+          </div>
         </div>
-        <button class="btn btn-o btn-sm mt8" style="width:100%" onclick="showNewCust()">+ 신규 고객 등록</button>
+
+        <!-- 고객 -->
+        <div class="fsec">
+          <div class="fsec-title">고객 정보</div>
+          <div style="display:flex;gap:6px;margin-bottom:8px">
+            <input type="text" class="finput" placeholder="고객명 / 전화번호" value="김민지" style="flex:1">
+            <button class="btn btn-p btn-sm" onclick="toast('고객 조회 완료','ok')">조회</button>
+          </div>
+          <div style="border:1px solid var(--green);border-radius:var(--r);padding:10px 12px;background:var(--gbg);display:flex;align-items:center;gap:10px">
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">김</div>
+            <div>
+              <div class="bold fca g8">⭐ 김민지 <span class="tag tg" style="font-size:10px">VIP</span></div>
+              <div class="xs sec mt4">010-1234-5678 · 총 12회 방문 · CSI 4.9★</div>
+            </div>
+            <button class="btn btn-o btn-xs" style="margin-left:auto" onclick="toast('신규 고객 등록')">+ 신규</button>
+          </div>
+        </div>
+
+        <!-- 차량 -->
+        <div class="fsec">
+          <div class="fsec-title">차량 정보</div>
+          <div style="display:flex;gap:6px;margin-bottom:8px">
+            <select class="fsel2" style="flex:1">
+              <option>제네시스 G80 2023 · 48나2847 (주차량)</option>
+              <option>현대 아반떼 2020 · 33라1122</option>
+            </select>
+            <button class="btn btn-o btn-sm" onclick="toast('OCR 스캔 준비 중','warn')">📷 OCR</button>
+          </div>
+          <div style="background:var(--sur2);border-radius:var(--r);padding:8px 12px;font-size:12px;color:var(--ts)">
+            주행거리 47,832 km · 최근 방문 2025.03.15 · 다음 점검 <span class="ca bold">2025.09 예정</span>
+          </div>
+        </div>
+
+        <!-- 서비스 -->
+        <div class="fsec">
+          <div class="fsec-title">서비스 선택 <span class="hint" style="font-weight:400">(복수 선택 가능)</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+            <label class="appt-svc"><input type="checkbox" checked onchange="calcEst()"><span>🔧 정기점검 <span class="hint xs">60분</span></span></label>
+            <label class="appt-svc"><input type="checkbox" onchange="calcEst()"><span>🛞 타이어 교체 <span class="hint xs">60분</span></span></label>
+            <label class="appt-svc"><input type="checkbox" onchange="calcEst()"><span>🛑 브레이크 패드 <span class="hint xs">90분</span></span></label>
+            <label class="appt-svc"><input type="checkbox" onchange="calcEst()"><span>❄ 에어컨 점검 <span class="hint xs">30분</span></span></label>
+            <label class="appt-svc"><input type="checkbox" onchange="calcEst()"><span>🔍 종합점검 <span class="hint xs">120분</span></span></label>
+            <label class="appt-svc"><input type="checkbox" onchange="calcEst()"><span>⚡ 배터리 점검 <span class="hint xs">20분</span></span></label>
+            <label class="appt-svc"><input type="checkbox" onchange="calcEst()"><span>🔔 리콜 캠페인 <span class="hint xs">45분 · 무상</span></span></label>
+            <label class="appt-svc"><input type="checkbox" onchange="calcEst()"><span>➕ 기타 직접 입력</span></label>
+          </div>
+          <textarea class="ftxt" rows="2" placeholder="증상 / 추가 요청 (예: 에어컨 켜면 소음, 브레이크 떨림 등)"></textarea>
+          <div class="ai mt8"><div class="ai-ico">🤖</div><div><div class="ai-title">AI 추천</div><div class="ai-body">브레이크 패드 교체 시기 도래 · 에어필터 권장 — 추가 시 +₩243,000</div></div></div>
+        </div>
       </div>
+
+      <!-- 오른쪽 -->
       <div>
-        <div class="xs bold hint mb8" style="text-transform:uppercase;letter-spacing:.8px">차량 정보</div>
-        <div id="vehResult" style="border:1px solid var(--pl);border-radius:var(--r);padding:10px;background:var(--bbg);margin-bottom:8px">
-          <div class="fca g8 mb6"><span style="font-size:18px">🚗</span><div><div class="bold">제네시스 G80 2023</div><div class="plate mt4">48나2847</div></div><span class="tag tb" style="margin-left:auto">주차량</span></div>
-          <div class="dp-row" style="padding:3px 0"><span class="dp-k xs">주행거리</span><span class="dp-v xs">47,832 km</span></div>
-          <div class="dp-row" style="padding:3px 0;border:none"><span class="dp-k xs">다음 점검</span><span class="dp-v xs ca">2025.09 예정</span></div>
+        <!-- 날짜/시간 -->
+        <div class="fsec">
+          <div class="fsec-title">날짜 · 시간</div>
+          <input type="date" class="finput" value="2025-06-20" style="margin-bottom:10px">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px" id="amSlots"></div>
+          <div class="fca g8 mt6" style="flex-wrap:wrap;gap:5px">
+            <span class="fca g4 xs hint"><span style="width:8px;height:8px;border-radius:2px;background:var(--pl);display:inline-block"></span>선택</span>
+            <span class="fca g4 xs hint"><span style="width:8px;height:8px;border-radius:2px;border:1px solid var(--amber);display:inline-block"></span>마감임박</span>
+            <span class="fca g4 xs hint"><span style="width:8px;height:8px;border-radius:2px;background:var(--sur2);border:1px solid var(--brd);display:inline-block"></span>마감</span>
+          </div>
         </div>
-        <button class="btn btn-o btn-sm" style="width:100%" onclick="toast('OCR 스캔 기능 준비 중','warn')">📷 차량등록증 OCR 스캔</button>
-      </div>
-    </div>
-    <div class="ai warn"><div class="ai-ico">🤖</div><div><div class="ai-title" style="color:var(--amber)">AI 방문 예측</div><div class="ai-body">마지막 방문 2025.03.15 (3개월 경과) · 브레이크 패드 교체 시기 도래 · 타이어 마모 주의 권고 이력 있음.</div></div></div>
-  </div>
 
-  <!-- STEP 3: 서비스 선택 -->
-  <div class="wiz-panel" id="wp3">
-    <div class="xs bold hint mb10" style="text-transform:uppercase;letter-spacing:.8px">서비스 선택 (복수 선택 가능)</div>
-    <div class="svc-grid">
-      <div class="svc-card on" onclick="togSvc(this)"><div class="svc-ico">🔧</div><div class="svc-info"><div class="svc-nm">정기점검</div><div class="svc-time">60분 · ₩85,000~</div></div><div class="svc-chk">✓</div></div>
-      <div class="svc-card" onclick="togSvc(this)"><div class="svc-ico">🛞</div><div class="svc-info"><div class="svc-nm">타이어 교체</div><div class="svc-time">60분 · ₩180,000~/개</div></div><div class="svc-chk"></div></div>
-      <div class="svc-card" onclick="togSvc(this)"><div class="svc-ico">🛑</div><div class="svc-info"><div class="svc-nm">브레이크 패드</div><div class="svc-time">90분 · ₩180,000~</div></div><div class="svc-chk"></div></div>
-      <div class="svc-card" onclick="togSvc(this)"><div class="svc-ico">❄</div><div class="svc-info"><div class="svc-nm">에어컨 점검</div><div class="svc-time">30분 · ₩30,000~</div></div><div class="svc-chk"></div></div>
-      <div class="svc-card" onclick="togSvc(this)"><div class="svc-ico">🔍</div><div class="svc-info"><div class="svc-nm">종합점검</div><div class="svc-time">120분 · ₩150,000~</div></div><div class="svc-chk"></div></div>
-      <div class="svc-card" onclick="togSvc(this)"><div class="svc-ico">⚡</div><div class="svc-info"><div class="svc-nm">배터리 점검</div><div class="svc-time">20분 · ₩15,000~</div></div><div class="svc-chk"></div></div>
-      <div class="svc-card" onclick="togSvc(this)"><div class="svc-ico">🔔</div><div class="svc-info"><div class="svc-nm">리콜 캠페인</div><div class="svc-time">45분 · 무상</div></div><div class="svc-chk"></div></div>
-      <div class="svc-card" onclick="togSvc(this)"><div class="svc-ico">🔩</div><div class="svc-info"><div class="svc-nm">엔진 수리</div><div class="svc-time">240분+ · 견적 후 확정</div></div><div class="svc-chk"></div></div>
-      <div class="svc-card" onclick="togSvc(this)"><div class="svc-ico">➕</div><div class="svc-info"><div class="svc-nm">기타 / 직접 입력</div><div class="svc-time">증상 텍스트 입력</div></div><div class="svc-chk"></div></div>
-    </div>
-    <div class="fgrp mb10"><label class="flbl">증상 / 추가 요청 (선택)</label><textarea class="ftxt" rows="2" placeholder="예) 에어컨 켰을 때 소음 발생, 브레이크 밟으면 떨림 등 구체적 증상을 입력해주세요"></textarea></div>
-    <div class="ai"><div class="ai-ico">🤖</div><div><div class="ai-title">AI 추천 서비스</div><div class="ai-body">이력 기반 — 브레이크 패드 교체 (3.2mm 잔량 감지), 에어필터 교체 권장. 예상 추가 매출 +₩243,000.</div></div></div>
-    <div class="fca g8 mt12" style="background:var(--sur2);border-radius:var(--r);padding:10px"><span class="xs sec">예상 소요시간</span><span class="bold" id="estTime" style="margin-left:auto">60분</span><span class="xs sec ml8">· 예상 금액</span><span class="bold ca" id="estPrice" style="margin-left:8px">₩85,000~</span></div>
-  </div>
-
-  <!-- STEP 4: 날짜/시간/SA -->
-  <div class="wiz-panel" id="wp4">
-    <div class="fg2 mb14">
-      <div>
-        <div class="xs bold hint mb8" style="text-transform:uppercase;letter-spacing:.8px">날짜 선택</div>
-        <input type="date" class="finput" value="2025-06-20" id="apptDate" onchange="renderSlots()" style="margin-bottom:10px">
-        <div class="xs bold hint mb8" style="text-transform:uppercase;letter-spacing:.8px">시간 슬롯</div>
-        <div class="slot-grid" id="slotGrid"></div>
-        <div class="fca g8" style="flex-wrap:wrap;gap:6px">
-          <div class="fca g4 xs sec"><div style="width:10px;height:10px;border-radius:2px;background:var(--pl)"></div>선택됨</div>
-          <div class="fca g4 xs sec"><div style="width:10px;height:10px;border-radius:2px;border:1px solid var(--amber)"></div>마감 임박</div>
-          <div class="fca g4 xs sec"><div style="width:10px;height:10px;border-radius:2px;background:var(--sur2);border:1px solid var(--brd)"></div>마감</div>
+        <!-- SA -->
+        <div class="fsec">
+          <div class="fsec-title">담당 Advisor <span class="hint" style="font-weight:400">(AI 자동 매칭 · 변경 가능)</span></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+            <div class="appt-sa on" onclick="asSel(this)">
+              <div style="width:30px;height:30px;border-radius:50%;background:#1a3a5c;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 5px">김</div>
+              <div class="bold xs">김민준 SA</div>
+              <div class="xs hint">CSI 4.8★</div>
+              <div class="tag tg mt4" style="font-size:9px">이전 담당</div>
+            </div>
+            <div class="appt-sa" onclick="asSel(this)">
+              <div style="width:30px;height:30px;border-radius:50%;background:#16a34a;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 5px">이</div>
+              <div class="bold xs">이서연 SA</div>
+              <div class="xs hint">CSI 4.9★</div>
+              <div class="xs sec mt4" style="font-size:9px">가용 ✅</div>
+            </div>
+            <div class="appt-sa" onclick="asSel(this)">
+              <div style="width:30px;height:30px;border-radius:50%;background:#9333ea;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 5px">박</div>
+              <div class="bold xs">박지호 SA</div>
+              <div class="xs hint">CSI 4.5★</div>
+              <div class="xs sec mt4" style="font-size:9px">가용 ✅</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div>
-        <div class="xs bold hint mb8" style="text-transform:uppercase;letter-spacing:.8px">담당 Advisor</div>
-        <div class="sa-grid" id="saGrid">
-          <div class="sa-card on" onclick="selSA(this,'김민준')"><div class="sa-avatar" style="background:#1a3a5c">김</div><div class="bold xs">김민준 SA</div><div class="xs sec mt2">CSI 4.8★</div><div class="tag tg mt4" style="font-size:9px">이전 담당</div></div>
-          <div class="sa-card" onclick="selSA(this,'이서연')"><div class="sa-avatar" style="background:#16a34a">이</div><div class="bold xs">이서연 SA</div><div class="xs sec mt2">CSI 4.9★</div><div class="xs hint mt4" style="font-size:9px">가용 ✅</div></div>
-          <div class="sa-card" onclick="selSA(this,'박지호')"><div class="sa-avatar" style="background:#9333ea">박</div><div class="bold xs">박지호 SA</div><div class="xs sec mt2">CSI 4.5★</div><div class="xs hint mt4" style="font-size:9px">가용 ✅</div></div>
-        </div>
-        <div class="ai ok mt8"><div class="ai-ico">🤖</div><div><div class="ai-title" style="color:var(--green)">AI 자동 배정</div><div class="ai-body">김민준 SA — 이전 담당자 우선 매칭. 선택 시간에 근무 예정.</div></div></div>
-      </div>
-    </div>
-  </div>
 
-  <!-- STEP 5: 옵션 -->
-  <div class="wiz-panel" id="wp5">
-    <div class="xs bold hint mb12" style="text-transform:uppercase;letter-spacing:.8px">추가 옵션</div>
-    <div class="opt-card on" onclick="togOpt(this)" id="opt-loaner">
-      <div class="opt-toggle on" id="tog-loaner"></div>
-      <div style="font-size:18px">🚙</div>
-      <div style="flex:1"><div class="bold sm">대차 서비스</div><div class="xs sec mt2">오늘 잔여 대수 3대 · 최대 1일</div></div>
-      <span class="tag tg" style="font-size:10px">가용</span>
-    </div>
-    <div class="opt-card" onclick="togOpt(this)" id="opt-pickup">
-      <div class="opt-toggle" id="tog-pickup"></div>
-      <div style="font-size:18px">🚕</div>
-      <div style="flex:1"><div class="bold sm">픽업 / 딜리버리</div><div class="xs sec mt2">Lyft 연동 · 딜러십 20km 이내</div></div>
-      <span class="tag ta" style="font-size:10px">택시 연동</span>
-    </div>
-    <div class="opt-card on" onclick="togOpt(this)" id="opt-sms">
-      <div class="opt-toggle on" id="tog-sms"></div>
-      <div style="font-size:18px">💬</div>
-      <div style="flex:1"><div class="bold sm">SMS 알림</div><div class="xs sec mt2">예약 확정 · 전날 리마인드 · 작업 완료</div></div>
-      <span class="tag tg" style="font-size:10px">권장</span>
-    </div>
-    <div class="opt-card" onclick="togOpt(this)" id="opt-push">
-      <div class="opt-toggle" id="tog-push"></div>
-      <div style="font-size:18px">📱</div>
-      <div style="flex:1"><div class="bold sm">앱 푸시 알림</div><div class="xs sec mt2">Customer Portal 앱 설치 시</div></div>
-      <span class="tag tgr" style="font-size:10px">미설치</span>
-    </div>
-    <div class="opt-card on" onclick="togOpt(this)" id="opt-recall">
-      <div class="opt-toggle on" id="tog-recall"></div>
-      <div style="font-size:18px">🔔</div>
-      <div style="flex:1"><div class="bold sm">리콜 / 무상 점검 조회</div><div class="xs sec mt2">방문 시 오픈 리콜 자동 확인 및 병행 처리</div></div>
-      <span class="tag tr" style="font-size:10px">1건 있음</span>
-    </div>
-    <div class="ai mt12 warn"><div class="ai-ico">🚙</div><div><div class="ai-title" style="color:var(--amber)">대차 안내</div><div class="ai-body">하루 최대 5대 운영. 오늘 잔여 3대. 장기 수리(4시간↑) 우선 배정. 픽업 서비스 선택 시 대차와 중복 불가.</div></div></div>
-  </div>
-
-  <!-- STEP 6: 요약/확인 -->
-  <div class="wiz-panel" id="wp6">
-    <div class="fg2">
-      <div>
-        <div class="xs bold hint mb10" style="text-transform:uppercase;letter-spacing:.8px">예약 요약</div>
-        <div class="card mb12" style="padding:14px">
-          <div class="sum-row"><span class="sec">채널</span><span id="sum-ch">Customer Portal</span></div>
-          <div class="sum-row"><span class="sec">고객</span><span id="sum-cust">⭐ 김민지 (VIP)</span></div>
-          <div class="sum-row"><span class="sec">차량</span><span id="sum-veh">제네시스 G80 · 48나2847</span></div>
-          <div class="sum-row"><span class="sec">서비스</span><span id="sum-svc">정기점검</span></div>
-          <div class="sum-row"><span class="sec">일시</span><span id="sum-dt">2025.06.20 (금) 09:00</span></div>
-          <div class="sum-row"><span class="sec">담당 SA</span><span id="sum-sa">김민준 SA</span></div>
-          <div class="sum-row"><span class="sec">예상 시간</span><span id="sum-time">60분</span></div>
-          <div class="sum-row"><span class="sec">대차</span><span id="sum-loaner" class="cg">신청</span></div>
-          <div class="sum-row"><span class="sec">알림</span><span id="sum-notif">SMS</span></div>
-          <div class="sum-row"><span class="sec">예상 금액</span><span id="sum-price" class="bold ca">₩85,000~</span></div>
+        <!-- 옵션 -->
+        <div class="fsec">
+          <div class="fsec-title">추가 옵션</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label class="appt-opt"><input type="checkbox" checked><div><div class="bold sm">🚙 대차 서비스</div><div class="xs sec">잔여 3대 · 4시간 이상 수리 우선</div></div></label>
+            <label class="appt-opt"><input type="checkbox"><div><div class="bold sm">🚕 픽업 / 딜리버리</div><div class="xs sec">Lyft 연동 · 20km 이내 · 대차와 중복 불가</div></div></label>
+            <label class="appt-opt"><input type="checkbox" checked><div><div class="bold sm">💬 SMS 알림</div><div class="xs sec">예약 확정 · 전날 리마인드 · 완료 알림</div></div></label>
+            <label class="appt-opt"><input type="checkbox" checked><div><div class="bold sm">🔔 오픈 리콜 자동 조회</div><div class="xs sec"><span class="cr bold">1건 감지</span> — 방문 시 병행 처리 권장</div></div></label>
+          </div>
         </div>
-        <div class="ai ok"><div class="ai-ico">✅</div><div><div class="ai-title" style="color:var(--green)">자동 발송 예정</div><div class="ai-body">예약 확정 시 고객 SMS + 김민준 SA 알림 즉시 발송. Customer Portal에도 자동 반영.</div></div></div>
-      </div>
-      <div id="confBox" class="hidden">
-        <div class="conf-box">
-          <div style="font-size:40px;margin-bottom:12px">🎉</div>
-          <div style="font-size:18px;font-weight:700;margin-bottom:8px">예약 확정!</div>
-          <div style="font-size:13px;opacity:.9" id="confNo">예약번호 APT-2025-0620-089</div>
-          <div style="margin-top:16px;font-size:12px;opacity:.8">고객 SMS · 담당 SA 알림 발송 완료</div>
-          <div style="margin-top:6px;font-size:12px;opacity:.8">Customer Portal 즉시 반영</div>
+
+        <!-- 예상 요약 -->
+        <div style="background:var(--primary);color:#fff;border-radius:var(--rl);padding:14px 16px">
+          <div class="fca g8" style="justify-content:space-between;margin-bottom:8px">
+            <span style="font-size:12px;opacity:.8">예상 소요</span>
+            <span class="bold" id="sumTime">60분</span>
+          </div>
+          <div class="fca g8" style="justify-content:space-between;margin-bottom:8px">
+            <span style="font-size:12px;opacity:.8">예상 금액</span>
+            <span class="bold" id="sumPrice">₩85,000~</span>
+          </div>
+          <div class="fca g8" style="justify-content:space-between">
+            <span style="font-size:12px;opacity:.8">선택 일시</span>
+            <span class="bold" id="sumSlot">2025.06.20 09:00</span>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    </div><!-- /grid -->
 
-  </div><!-- /overflow -->
-
-  <div class="modal-foot" id="wizFoot">
-    <div style="font-size:12px;color:var(--th)" id="wizStepLbl">Step 1 / 6</div>
-    <div style="display:flex;gap:8px;margin-left:auto">
-      <button class="btn btn-o" id="wizPrevBtn" onclick="wizNav(-1)" style="display:none">← 이전</button>
-      <button class="btn btn-o" onclick="closeApptModal()">취소</button>
-      <button class="btn btn-p" id="wizNextBtn" onclick="wizNav(1)">다음 →</button>
-    </div>
+  </div><!-- /modal-body -->
+  <div class="modal-foot">
+    <button class="btn btn-o" onclick="closeApptModal()">취소</button>
+    <button class="btn btn-g" onclick="doCreateAppt()">✅ 예약 확정</button>
   </div>
 </div>
 </div>
@@ -1646,161 +1632,66 @@ document.addEventListener('click', function(e) {
 });
 
 
-// ── WIZARD STATE ──────────────────────────────────────────
-var wizStep = 1;
-var wizData = {ch:'Customer Portal', sa:'김민준', slot:'09:00', loaner:true, sms:true};
-var TOTAL_STEPS = 6;
-var SUBTITLES = ['채널을 선택하여 시작하세요','고객 및 차량 정보 확인','방문 목적 및 서비스 선택','날짜 · 시간 · 담당 Advisor','추가 옵션 설정','예약 내용 최종 확인'];
+// ── APPT MODAL ────────────────────────────────────────────
+var slotTimes = ['08:30','09:00','09:30','10:00','10:30','11:00','11:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00'];
+var slotAvail = ['ok','ok','few','ok','busy','ok','few','ok','ok','busy','ok','ok','few','ok'];
+var selSlotT  = '09:00';
 
 function openApptModal() {
-  wizStep = 1;
-  updateWiz();
+  renderAmSlots();
   document.getElementById('apptModal').classList.remove('hidden');
 }
 function closeApptModal() {
   document.getElementById('apptModal').classList.add('hidden');
-  document.getElementById('confBox').classList.add('hidden');
-  document.getElementById('wizFoot').style.display = '';
 }
-
-function updateWiz() {
-  for (var i = 1; i <= TOTAL_STEPS; i++) {
-    var p = document.getElementById('wp' + i);
-    var s = document.getElementById('ws' + i);
-    if (p) p.classList.toggle('active', i === wizStep);
-    if (s) s.className = 'wiz-step' + (i === wizStep ? ' active' : i < wizStep ? ' done' : '');
-    if (s) s.querySelector('.wiz-num').textContent = i < wizStep ? '✓' : i;
-  }
-  document.getElementById('apptWizSubtitle').textContent = SUBTITLES[wizStep - 1];
-  document.getElementById('wizStepLbl').textContent = 'Step ' + wizStep + ' / ' + TOTAL_STEPS;
-  document.getElementById('wizPrevBtn').style.display = wizStep > 1 ? '' : 'none';
-  var nb = document.getElementById('wizNextBtn');
-  nb.textContent = wizStep === TOTAL_STEPS ? '✅ 예약 확정' : '다음 →';
-  if (wizStep === 4) renderSlots();
-  if (wizStep === 6) updateSummary();
-}
-
-function wizNav(d) {
-  if (wizStep + d > TOTAL_STEPS) {
-    confirmAppt(); return;
-  }
-  wizStep = Math.max(1, Math.min(TOTAL_STEPS, wizStep + d));
-  updateWiz();
-}
-
-function confirmAppt() {
-  var no = 'APT-2025-0620-' + (Math.floor(Math.random()*900)+100);
-  document.getElementById('confNo').textContent = '예약번호 ' + no;
-  document.getElementById('confBox').classList.remove('hidden');
-  document.getElementById('wizFoot').style.display = 'none';
-  // 진행바 전부 done
-  for (var i = 1; i <= TOTAL_STEPS; i++) {
-    var s = document.getElementById('ws' + i);
-    if (s) { s.className = 'wiz-step done'; s.querySelector('.wiz-num').textContent = '✓'; }
-  }
-  toast('예약 확정! ' + no + ' — 고객 SMS 발송 완료', 'ok');
-}
-
-// 채널 선택
-function selCh(el, ch) {
-  el.closest('.ch-grid').querySelectorAll('.ch-card').forEach(function(c) { c.classList.remove('on'); });
-  el.classList.add('on');
-  wizData.ch = ch;
-}
-
-// 서비스 선택
-var svcTimes = [60,60,90,30,120,20,45,240,60];
-var svcPrices = [85000,180000,180000,30000,150000,15000,0,0,0];
-var svcNames = ['정기점검','타이어 교체','브레이크 패드','에어컨 점검','종합점검','배터리 점검','리콜 캠페인','엔진 수리','기타'];
-function togSvc(el) {
-  el.classList.toggle('on');
-  el.querySelector('.svc-chk').textContent = el.classList.contains('on') ? '✓' : '';
-  var cards = document.querySelectorAll('.svc-card');
-  var totalTime = 0, totalPrice = 0, names = [];
-  cards.forEach(function(c, i) {
-    if (c.classList.contains('on')) {
-      totalTime += svcTimes[i] || 0;
-      totalPrice += svcPrices[i] || 0;
-      names.push(svcNames[i]);
-    }
-  });
-  document.getElementById('estTime').textContent = totalTime + '분';
-  document.getElementById('estPrice').textContent = totalPrice ? '₩' + totalPrice.toLocaleString() + '~' : '견적 후 확정';
-  wizData.svcs = names;
-  wizData.estTime = totalTime;
-  wizData.estPrice = totalPrice;
-}
-
-// 슬롯 렌더
-var slotData = [
-  {t:'08:30',a:'ok'},{t:'09:00',a:'ok'},{t:'09:30',a:'few'},{t:'10:00',a:'ok'},
-  {t:'10:30',a:'busy'},{t:'11:00',a:'ok'},{t:'11:30',a:'few'},{t:'13:00',a:'ok'},
-  {t:'13:30',a:'ok'},{t:'14:00',a:'busy'},{t:'14:30',a:'ok'},{t:'15:00',a:'ok'},
-];
-var selSlot = '09:00';
-function renderSlots() {
-  var grid = document.getElementById('slotGrid');
-  if (!grid) return;
-  var html = '';
-  for (var i = 0; i < slotData.length; i++) {
-    var s = slotData[i];
-    var cls = 'slot';
+function renderAmSlots() {
+  var g = document.getElementById('amSlots');
+  if (!g) return;
+  var h = '';
+  for (var i = 0; i < slotTimes.length; i++) {
+    var t = slotTimes[i], av = slotAvail[i];
+    var cls = 'aslot';
     var sub = '';
-    if (s.a === 'busy') { cls += ' busy'; sub = '마감'; }
-    else if (s.a === 'few') { cls += ' few'; sub = '마감임박'; }
-    else sub = '여유';
-    if (s.t === selSlot && s.a !== 'busy') cls += ' on';
-    var t2 = s.t;
-    var oc2 = s.a === 'busy' ? '' : 'onclick="selSlot2(this)" data-t="' + t2 + '"';
-    html += '<div class="slot' + (s.a==='busy'?' busy':s.a==='few'?' few':selSlot===s.t?' on':'') + '" ' + oc2 + '>' + t2 + '<div class="slot-sub">' + sub + '</div></div>';
+    if (av === 'busy')      { cls += ' busy'; sub = '마감'; }
+    else if (av === 'few')  { cls += ' few';  sub = '임박'; }
+    else                    { sub = '여유'; }
+    if (t === selSlotT && av !== 'busy') cls += ' on';
+    var dt = av === 'busy' ? '' : ' data-t="' + t + '" onclick="pickSlot(this)"';
+    h += '<div class="' + cls + '"' + dt + '>' + t + '<div class="aslot-sub">' + sub + '</div></div>';
   }
-  grid.innerHTML = html;
-  wizData.slot = selSlot;
+  g.innerHTML = h;
+  var el = document.getElementById('sumSlot');
+  if (el) el.textContent = '2025.06.20 ' + selSlotT;
 }
-function selSlot(t) {
-  selSlot = t;
-  wizData.slot = t;
-  renderSlots();
+function pickSlot(el) {
+  selSlotT = el.getAttribute('data-t');
+  renderAmSlots();
 }
-
-// SA 선택
-function selSA(el, name) {
-  el.closest('.sa-grid').querySelectorAll('.sa-card').forEach(function(c) { c.classList.remove('on'); });
+var svcMin   = [60,60,90,30,120,20,45,60,60];
+var svcPrice = [85000,180000,180000,30000,150000,15000,0,0,0];
+function calcEst() {
+  var cbs = document.querySelectorAll('.appt-svc input[type=checkbox]');
+  var mins = 0, price = 0;
+  cbs.forEach(function(cb, i) { if (cb.checked) { mins += svcMin[i]||0; price += svcPrice[i]||0; } });
+  var te = document.getElementById('sumTime');
+  var pe = document.getElementById('sumPrice');
+  if (te) te.textContent = (mins||60) + '분';
+  if (pe) pe.textContent = price ? '₩' + price.toLocaleString() + '~' : '견적 후 확정';
+}
+function acSel(el) {
+  el.closest('div').querySelectorAll('.appt-ch').forEach(function(c){c.classList.remove('on');});
   el.classList.add('on');
-  wizData.sa = name;
+}
+function asSel(el) {
+  el.closest('div').querySelectorAll('.appt-sa').forEach(function(c){c.classList.remove('on');});
+  el.classList.add('on');
+}
+function doCreateAppt() {
+  var no = 'APT-2025-0620-' + (Math.floor(Math.random()*900)+100);
+  closeApptModal();
+  toast('예약 확정! ' + no + ' — 고객 SMS · SA 알림 발송 완료', 'ok');
 }
 
-// 옵션 토글
-function togOpt(card) {
-  card.classList.toggle('on');
-  var tog = card.querySelector('.opt-toggle');
-  if (tog) tog.classList.toggle('on');
-  var id = card.id;
-  if (id === 'opt-loaner') wizData.loaner = card.classList.contains('on');
-  if (id === 'opt-sms') wizData.sms = card.classList.contains('on');
-}
-
-// 요약 업데이트
-function updateSummary() {
-  var svcs = wizData.svcs && wizData.svcs.length ? wizData.svcs.join(', ') : '정기점검';
-  var el = function(id, val) { var e = document.getElementById(id); if (e) e.textContent = val; };
-  el('sum-ch', wizData.ch || 'Customer Portal');
-  el('sum-svc', svcs);
-  el('sum-dt', '2025.06.20 (금) ' + (wizData.slot || '09:00'));
-  el('sum-sa', (wizData.sa || '김민준') + ' SA');
-  el('sum-time', (wizData.estTime || 60) + '분');
-  el('sum-loaner', wizData.loaner ? '신청' : '미신청');
-  el('sum-notif', wizData.sms ? 'SMS' : '없음');
-  el('sum-price', wizData.estPrice ? '₩' + wizData.estPrice.toLocaleString() + '~' : '₩85,000~');
-}
-
-// 고객 검색 시뮬
-function searchCust() {
-  toast('고객 조회 완료 — 김민지 (VIP)', 'ok');
-}
-function showNewCust() {
-  toast('신규 고객 등록 폼 — 준비 중');
-}
 
 // ── INIT ──────────────────────────────────────────────────
 window.addEventListener('load', function() {
